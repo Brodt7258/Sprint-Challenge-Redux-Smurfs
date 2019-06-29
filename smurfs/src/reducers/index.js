@@ -21,3 +21,52 @@
   There is no need for 'combineReducers' in this project.
   Components can then read your store as, `state` and not `state.fooReducer`.
 */
+
+import { FETCHING, GET_SMURFS, ERROR_RECEIVED, ADDING, ADD_SMURF } from '../actions';
+
+const initialState = {
+  smurfs: [],
+  fetching: false,
+  adding: false,
+  updating: false,
+  deleting: false,
+  error: null
+};
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case GET_SMURFS:
+      return {
+        ...state,
+        fetching: false,
+        smurfs: action.payload
+      };
+    case ADD_SMURF:
+      return {
+        ...state,
+        adding: false,
+        smurfs: action.payload
+      };
+    case FETCHING:
+      return {
+        ...state,
+        fetching: true
+      };
+    case ADDING:
+      return {
+        ...state,
+        adding: true
+      };
+    case ERROR_RECEIVED:
+      return {
+        ...state,
+        fetching: false,
+        adding: false,
+        updating: false,
+        deleting: false,
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+};
