@@ -22,7 +22,7 @@
   Components can then read your store as, `state` and not `state.fooReducer`.
 */
 
-import { FETCHING, GET_SMURFS, ERROR_RECEIVED } from '../actions';
+import { FETCHING, GET_SMURFS, ERROR_RECEIVED, ADDING, ADD_SMURF } from '../actions';
 
 const initialState = {
   smurfs: [],
@@ -41,10 +41,21 @@ export default (state = initialState, action) => {
         fetching: false,
         smurfs: action.payload
       };
+    case ADD_SMURF:
+      return {
+        ...state,
+        adding: false,
+        smurfs: action.payload
+      };
     case FETCHING:
       return {
         ...state,
         fetching: true
+      };
+    case ADDING:
+      return {
+        ...state,
+        adding: true
       };
     case ERROR_RECEIVED:
       return {

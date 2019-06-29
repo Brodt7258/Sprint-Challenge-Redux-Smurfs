@@ -7,12 +7,35 @@ import './App.css';
  `How do I ensure that my component links the state to props?`
  */
 import { connect } from 'react-redux';
-import { getSmurfs } from '../actions';
+import { getSmurfs, addSmurf } from '../actions';
 
 class App extends Component {
+
+  state = {
+    name: '',
+    age: '',
+    height: ''
+  };
+
   componentDidMount = () => {
     this.props.getSmurfs();
+  };
+
+  submit = (e) => {
+    e.preventDefault();
+    this.props.addSmurf(this.state);
+    this.setState({
+      name: '',
+      age: '',
+      height: ''
+    });
   }
+
+  handleChange = (key) => (e) => {
+    this.setState({
+      [key]: e.target.value
+    });
+  };
 
   render() {
     return (
@@ -21,6 +44,12 @@ class App extends Component {
         <div>Welcome to your Redux version of Smurfs!</div>
         <div>Start inside of your `src/index.js` file!</div>
         <div>Have fun!</div>
+        <form action="">
+          <input type="text" value={this.state.name} onChange={this.handleChange('name')}/>
+          <input type="text" value={this.state.age} onChange={this.handleChange('age')}/>
+          <input type="text" value={this.state.height} onChange={this.handleChange('height')}/>
+          <button onClick={this.submit}>submit</button>
+        </form>
       </div>
     );
   }
@@ -28,8 +57,8 @@ class App extends Component {
 
 const mapStateToProps = ({ smurfs, fetching }) => {
   return {
-    
+    smurfs
   };
 };
 
-export default connect(mapStateToProps, { getSmurfs })(App);
+export default connect(mapStateToProps, { getSmurfs, addSmurf })(App);

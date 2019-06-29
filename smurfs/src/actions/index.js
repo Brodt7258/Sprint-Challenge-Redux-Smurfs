@@ -17,13 +17,26 @@ import axios from 'axios';
 
 export const GET_SMURFS = 'GET_SMURFS';
 export const FETCHING = 'FETCHING';
+export const ADDING = 'ADDING';
 export const ERROR_RECEIVED = 'ERROR_RECEIVED';
+export const ADD_SMURF = 'ADD_SMURF';
 
 export const getSmurfs = () => dispatch => {
   dispatch({ type: FETCHING });
   axios.get('http://localhost:3333/smurfs')
     .then(({ data }) => {
       dispatch({ type: GET_SMURFS, payload: data });
+    })
+    .catch(err => {
+      dispatch({ type: ERROR_RECEIVED, payload: err });
+    });
+};
+
+export const addSmurf = smurf => dispatch => {
+  dispatch({ type: ADDING });
+  axios.post('http://localhost:3333/smurfs', smurf)
+    .then(({ data }) => {
+      dispatch({ type: ADD_SMURF, payload: data });
     })
     .catch(err => {
       dispatch({ type: ERROR_RECEIVED, payload: err });
